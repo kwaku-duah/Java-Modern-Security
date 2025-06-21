@@ -1,10 +1,11 @@
-package practice.protectedapp.entity;
+package com.practice.protectedapp.entity;
 
 import lombok.*;
-
+import jakarta.persistence.*;;
 /*
  * User model/entity for the project 
  */
+
 
 @Entity
 @Table(name = "usertable")
