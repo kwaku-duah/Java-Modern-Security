@@ -1,4 +1,4 @@
-package com.practice.protectedapp.service;
+package com.practice.protectedapp.security;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import com.practice.protectedapp.entity.User;
 
 
 public interface JwtService {
-    User generateToken(User user);
+    String generateToken(User user);
     String extractUsername(String token);
     List<String> extractRoles(String token);
     boolean isValid(String token);
