@@ -31,6 +31,9 @@ public class User {
     @Column(nullable = false)
     String password;
 
+    @Column(length = 512)
+    private String refreshToken;
+
     /*
      * addition of row field with Set data type for uniqueness
      * JPA cannot store a collection of Set<enum>, so element 

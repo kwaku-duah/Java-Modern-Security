@@ -32,6 +32,7 @@ public class JwtServiceImpl implements JwtService {
     private String secret;
 
     private final Duration expiration = Duration.ofMinutes(30);
+    private final Duration refreshExpiration = Duration.ofDays(7);
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
@@ -51,6 +52,16 @@ public class JwtServiceImpl implements JwtService {
                 .issuedAt(new Date())
                 .expiration(Date.from(Instant.now().plus(expiration)))
                 .signWith(getSigningKey()) // infers HS256 automatically
+                .compact();
+    }
+
+    @Override
+    public String generateRefreshToken(User user) {
+        return Jwts.builder()
+                .subject(user.getEmail())
+                .issuedAt(new Date())
+                .expiration(Date.from(Instant.now().plus(refreshExpiration)))
+                .signWith(getSigningKey())
                 .compact();
     }
 

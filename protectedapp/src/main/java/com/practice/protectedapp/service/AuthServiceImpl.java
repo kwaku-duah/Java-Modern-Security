@@ -39,7 +39,7 @@ public class AuthServiceImpl implements AuthService {
 
 
     @Override
-    public TokenResponseDto register(RegisterRequestDto dto){
+    public AuthResponsetDto register(RegisterRequestDto dto){
         if(userRepository.findByEmail(dto.getEmail()).isPresent()) {
             throw new DuplicateResourceException("Email already exists");
         }
@@ -53,12 +53,21 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(registerUser);
 
         String token = jwtService.generateToken(registerUser);
-        return new TokenResponseDto(token);
+        String refreshToken = jwtService.generateRefreshToken(registerUser);
+
+        AuthResponsetDto response = new AuthResponsetDto();
+        response.setFullName(registerUser.getFullName());
+        response.setEmail(registerUser.getEmail());
+        response.setRoles(registerUser.getRoles());
+        response.setAccessToken(token);
+        response.setRefreshToken(refreshToken);
+
+        return response;
 
     }
 
     @Override
-    public TokenResponseDto login(LoginRequestDto dto) {
+    public AuthResponsetDto login(LoginRequestDto dto) {
         User user = userRepository.findByEmail(dto.getEmail())
             .orElseThrow(()-> new ResourceNotFoundException("User", "email", dto.getEmail()));
 
@@ -67,6 +76,16 @@ public class AuthServiceImpl implements AuthService {
         }
 
         String token = jwtService.generateToken(user);
-        return new TokenResponseDto(token);
+        String refreshToken = jwtService.generateRefreshToken(user);
+        AuthResponsetDto response = new AuthResponsetDto();
+        response.getFullName();
+        response.getEmail();
+        response.getRoles();
+        response.setAccessToken(token);
+        response.setRefreshToken(refreshToken);
+
+        return response;
+
+        
     }
 }

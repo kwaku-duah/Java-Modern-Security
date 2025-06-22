@@ -21,6 +21,7 @@ import com.practice.protectedapp.entity.User;
 
 public interface JwtService {
     String generateToken(User user);
+    String generateRefreshToken(User user);
     String extractUsername(String token);
     List<String> extractRoles(String token);
     boolean isValid(String token);
